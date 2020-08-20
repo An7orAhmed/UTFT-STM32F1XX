@@ -4,5 +4,5 @@ Supported device: STM32F1XX
 
 Pin Map: <br>
 TFT        |      STM32<br>
-DB0 - DB7  -  PA0 - PA7<br>
-DB8 - DB15 - PB8 - PB15
+DB0 - DB7  <->  PA0 - PA7<br>
+DB8 - DB15 <-> PB8 - PB15
