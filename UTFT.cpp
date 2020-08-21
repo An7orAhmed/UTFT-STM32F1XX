@@ -391,7 +391,7 @@ void UTFT::setBackColor(byte r, byte g, byte b)
 
 void UTFT::setBackColor(uint32_t color)
 {
-	if (color==VGA_TRANSPARENT)
+	if (color==TRANSPARENT)
 		_transparent=true;
 	else
 	{
