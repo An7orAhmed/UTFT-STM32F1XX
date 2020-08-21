@@ -2,10 +2,23 @@
 
 void UTFT::_hw_special_init(){}
 
+int UTFT::_invertBits(int num) {
+  for (byte i = 0; i < 8; i++) num ^= (1 << i);
+  return num;
+}
+
 void UTFT::LCD_Writ_Bus(char VH,char VL, byte mode)
 {
+	int hb = _invertBits(VH), lb = _invertBits(VL);
+	uint16_t set = (VH << 8) + VL; 
+	uint16_t unset = (hb << 8) + lb;
+	
 	if(mode == 16) {
-		digitalWriteFast(digitalPinToPinName(PA0), bitRead(VL, 0));
+		GPIOA->BSRR |= VL;
+		GPIOA->BRR |= lb;
+		GPIOB->BSRR |= (VH << 8);
+		GPIOB->BRR |= (hb << 8);
+		/* digitalWriteFast(digitalPinToPinName(PA0), bitRead(VL, 0));
 		digitalWriteFast(digitalPinToPinName(PA1), bitRead(VL, 1));
 		digitalWriteFast(digitalPinToPinName(PA2), bitRead(VL, 2));
 		digitalWriteFast(digitalPinToPinName(PA3), bitRead(VL, 3));
@@ -21,7 +34,7 @@ void UTFT::LCD_Writ_Bus(char VH,char VL, byte mode)
 		digitalWriteFast(digitalPinToPinName(PB12), bitRead(VH, 4));
 		digitalWriteFast(digitalPinToPinName(PB13), bitRead(VH, 5));
 		digitalWriteFast(digitalPinToPinName(PB14), bitRead(VH, 6));
-		digitalWriteFast(digitalPinToPinName(PB15), bitRead(VH, 7));
+		digitalWriteFast(digitalPinToPinName(PB15), bitRead(VH, 7)); */
 		
 		pulse_low(P_WR, B_WR);
 	}	
@@ -52,8 +65,16 @@ void UTFT::_set_direction_registers(byte mode)
 void UTFT::_fast_fill_16(int ch, int cl, long pix)
 {
 	long blocks;
+	int hb = _invertBits(ch), lb = _invertBits(cl);
+	uint16_t set = (ch << 8) + ch; 
+	uint16_t unset = (hb << 8) + lb;
+	
+	GPIOA->BSRR |= cl;
+	GPIOA->BRR |= lb;
+	GPIOB->BSRR |= (ch << 8);
+	GPIOB->BRR |= (hb << 8);
 
-	digitalWriteFast(digitalPinToPinName(PA0), bitRead(cl, 0));
+	/* digitalWriteFast(digitalPinToPinName(PA0), bitRead(cl, 0));
 	digitalWriteFast(digitalPinToPinName(PA1), bitRead(cl, 1));
 	digitalWriteFast(digitalPinToPinName(PA2), bitRead(cl, 2));
 	digitalWriteFast(digitalPinToPinName(PA3), bitRead(cl, 3));
@@ -69,7 +90,7 @@ void UTFT::_fast_fill_16(int ch, int cl, long pix)
 	digitalWriteFast(digitalPinToPinName(PB12), bitRead(ch, 4));
 	digitalWriteFast(digitalPinToPinName(PB13), bitRead(ch, 5));
 	digitalWriteFast(digitalPinToPinName(PB14), bitRead(ch, 6));
-	digitalWriteFast(digitalPinToPinName(PB15), bitRead(ch, 7));
+	digitalWriteFast(digitalPinToPinName(PB15), bitRead(ch, 7)); */
 
 	blocks = pix/16;
 	for (int i=0; i<blocks; i++)
@@ -101,15 +122,21 @@ void UTFT::_fast_fill_16(int ch, int cl, long pix)
 void UTFT::_fast_fill_8(int ch, long pix)
 {
 	long blocks;
+	int hb = _invertBits(ch);
+	uint16_t set = (ch << 8); 
+	uint16_t unset = (hb << 8);
+	
+	GPIOB->BSRR |= (ch << 8);
+	GPIOB->BRR |= (hb << 8);
 
-	digitalWriteFast(digitalPinToPinName(PB8), bitRead(ch, 0));
+	/* digitalWriteFast(digitalPinToPinName(PB8), bitRead(ch, 0));
 	digitalWriteFast(digitalPinToPinName(PB9), bitRead(ch, 1));
 	digitalWriteFast(digitalPinToPinName(PB10), bitRead(ch, 2));
 	digitalWriteFast(digitalPinToPinName(PB11), bitRead(ch, 3));
 	digitalWriteFast(digitalPinToPinName(PB12), bitRead(ch, 4));
 	digitalWriteFast(digitalPinToPinName(PB13), bitRead(ch, 5));
 	digitalWriteFast(digitalPinToPinName(PB14), bitRead(ch, 6));
-	digitalWriteFast(digitalPinToPinName(PB15), bitRead(ch, 7));
+	digitalWriteFast(digitalPinToPinName(PB15), bitRead(ch, 7)); */
 
 	blocks = pix/16;
 	for (int i=0; i<blocks; i++)
