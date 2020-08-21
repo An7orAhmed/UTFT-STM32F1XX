@@ -38,24 +38,24 @@ Libraries for ER-TFTM050-5(800x480 Pixels) with No Touch Panel
 //*********************************
 // COLORS
 //*********************************
-// VGA color palette
-#define VGA_BLACK		0x0000
-#define VGA_WHITE		0xFFFF
-#define VGA_RED			0xF800
-#define VGA_GREEN		0x0400
-#define VGA_BLUE		0x001F
-#define VGA_SILVER		0xC618
-#define VGA_GRAY		0x8410
-#define VGA_MAROON		0x8000
-#define VGA_YELLOW		0xFFE0
-#define VGA_OLIVE		0x8400
-#define VGA_LIME		0x07E0
-#define VGA_AQUA		0x07FF
-#define VGA_TEAL		0x0410
-#define VGA_NAVY		0x0010
-#define VGA_FUCHSIA		0xF81F
-#define VGA_PURPLE		0x8010
-#define VGA_TRANSPARENT	0xFFFFFFFF
+//  color palette
+#define BLACK		0x0000
+#define WHITE		0xFFFF
+#define RED			0xF800
+#define GREEN		0x0400
+#define BLUE		0x001F
+#define SILVER		0xC618
+#define GRAY		0x8410
+#define MAROON		0x8000
+#define YELLOW		0xFFE0
+#define OLIVE		0x8400
+#define LIME		0x07E0
+#define AQUA		0x07FF
+#define TEAL		0x0410
+#define NAVY		0x0010
+#define FUCHSIA		0xF81F
+#define PURPLE		0x8010
+#define TRANSPARENT	0xFFFFFFFF
 
 #if defined(__AVR__)
 	#include "Arduino.h"
@@ -151,6 +151,7 @@ class UTFT
 		void _fast_fill_16(int ch, int cl, long pix);
 		void _fast_fill_8(int ch, long pix);
 		void _convert_float(char *buf, double num, int width, byte prec);
+		int  _invertBits(int num);
 };
 
 #endif
